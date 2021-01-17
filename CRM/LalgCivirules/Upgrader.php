@@ -13,6 +13,7 @@ class CRM_LalgCivirules_Upgrader extends CRM_LalgCivirules_Upgrader_Base {
    * Example: Run an external SQL script when the module is installed.
    */
   public function install() {
+	$this->executeSqlFile('sql/myuninstall.sql');
     $this->executeSqlFile('sql/myinstall.sql');
   }
 
@@ -40,6 +41,19 @@ class CRM_LalgCivirules_Upgrader extends CRM_LalgCivirules_Upgrader_Base {
   public function uninstall() {
    $this->executeSqlFile('sql/myuninstall.sql');
   }
+  
+    /**
+   * Example: Run an external SQL Upgrade script.
+   *
+   * @return TRUE on success
+   * @throws Exception
+   */
+  public function upgrade_0001() {
+    $this->ctx->log->info('Applying Lalg-Civirules update 0001');
+    $this->executeSqlFile('sql/myuninstall.sql');
+    $this->executeSqlFile('sql/myinstall.sql');	
+    return TRUE;
+  } 
 
   /**
    * Example: Run a simple query when a module is enabled.

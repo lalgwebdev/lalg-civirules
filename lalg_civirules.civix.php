@@ -212,7 +212,6 @@ function _lalg_civirules_civix_upgrader() {
     return NULL;
   }
   else {
-dpm('calling Upgrader');
     return CRM_LalgCivirules_Upgrader_Base::instance();
   }
 }
