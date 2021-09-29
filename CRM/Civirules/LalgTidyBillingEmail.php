@@ -1,10 +1,10 @@
 <?php
 //*************************  Civirules Actions  *********************
 /**
- * Action to tidy up (postal) Billing Address Fields after card payment.
- * Stripe payment leaves the billing address Null, rather than absent, confuses some test code.
+ * Action to remove Billing Email Fields when payment has been made.
+ * Part of a workaround to allow admins to take a card payment over the phone without an email.
  */
- class CRM_Civirules_LalgTidyBillingAddress extends CRM_Civirules_Action {
+ class CRM_Civirules_LalgTidyBillingEmail extends CRM_Civirules_Action {
 	 
 	/**
 	* Method to return the url for additional form processing for action
@@ -16,8 +16,11 @@
 	public function getExtraDataInputUrl($ruleActionId) {	  return FALSE;	}
 	
 	/**
-	* Method processAction to execute the action
+	/**
+	*	Method processAction to execute the action
+	*
 	* Triggered by a Membership being added or changed.
+	* Goes to the associated Contact, and deletes any attached Billing Email addresses
 	*
 	* @param CRM_Civirules_TriggerData_TriggerData $triggerData	* @access public
 	*/
@@ -29,11 +32,11 @@
 			// Get the Contact that called this action
 			$cid = $triggerData -> getContactId();
 
-//dpm('Tidy Billing Address called for: ' . $cid);
+//dpm('Tidy Billing email called for: ' . $cid);
 			
-			// Get the attached Addresses
+			// Get the attached Email Addresses
 			if ($cid) {
-				$result = civicrm_api3('Address', 'get', [
+				$result = civicrm_api3('Email', 'get', [
 					'sequential' => 1,
 					'contact_id' => $cid,
 				]);
@@ -42,18 +45,17 @@
 			} 
 			else {return;}
 			
-			// Delete Billing addresses
+			// Delete Billing Email addresses
 			// Will automatically leave 'Home' address as Primary if it exists
-//dpm('Deleting Addresses');
-			foreach ($result['values'] as $address) {
-				if ($address['location_type_id'] == 5) {
-					$result = civicrm_api3('Address', 'delete', [
-						'id' => $address['id'],
+//dpm('Deleting emails');
+			foreach ($result['values'] as $email) {
+				if ($email['location_type_id'] == 5) {
+					$result = civicrm_api3('Email', 'delete', [
+						'id' => $email['id'],
 					]);
 //dpm($result);
 				}
 			}		
-						
 		}
 		catch (Exception $e) {
 			dpm('LalgTidyBillingAddress  Caught exception: ');
