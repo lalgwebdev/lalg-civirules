@@ -53,6 +53,12 @@ class CRM_LalgCivirules_Upgrader extends CRM_LalgCivirules_Upgrader_Base {
     return TRUE;
   } 
 
+  public function upgrade_0002() {
+    $this->ctx->log->info('Applying Lalg-Civirules update 0002');
+    $this->executeSqlFile('sql/myupgrade_0002.sql');	
+    return TRUE;
+  } 
+  
   /**
    * Example: Run a simple query when a module is enabled.
    *
