@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<menu>
-  <item>
-    <path>civicrm/civirule/form/action/contact/subtype?rule_action_id=69</path>
-    <page_callback>CRM_LalgCivirules_Form_LalgSchedulePostalReminder</page_callback>
-    <title>LalgSchedulePostalReminder</title>
-    <access_arguments>access CiviCRM</access_arguments>
-  </item>
-</menu>
